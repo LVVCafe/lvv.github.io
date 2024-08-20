@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Website</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s ease;
+            overflow: hidden; /* Hide scroll bars */
+        }
+        .swiper-container {
+            width: 100%;
+            max-width: 1366px;
+            height: 768px;
+        }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain; /* Ensure the image fits within the container */
+        }
+        @media (max-width: 768px) {
+            .swiper-container {
+                height: 50vh;
+            }
+            .swiper-slide img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        @media (max-width: 480px) {
+            .swiper-container {
+                height: 40vh;
+            }
+            .swiper-slide img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        @media (max-width: 600px) and (min-height: 800px) {
+            .swiper-container {
+                display: none; /* Hide swiper container */
+            }
+            .vertical-images {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            .vertical-images img {
+                width: 100%;
+                height: auto;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" data-bgcolor="#ffadad"><img src="images/1.png" alt="Image 1"></div>
+            <div class="swiper-slide" data-bgcolor="#ffd6a5"><img src="images/2.png" alt="Image 2"></div>
+            <div class="swiper-slide" data-bgcolor="#fdffb6"><img src="images/3.png" alt="Image 3"></div>
+            <div class="swiper-slide" data-bgcolor="#caffbf"><img src="images/4.png" alt="Image 4"></div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <div class="vertical-images" style="display: none;">
+        <img src="images/1.png" alt="Image 1">
+        <img src="images/2.png" alt="Image 2">
+        <img src="images/3.png" alt="Image 3">
+        <img src="images/4.png" alt="Image 4">
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true, // Enable loop for infinite scrolling
+            slidesPerView: 1,
+            centeredSlides: true,
+            spaceBetween: 10,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            on: {
+                slideChangeTransitionEnd: function () {
+                    var activeSlide = document.querySelector('.swiper-slide-active');
+                    var newColor = activeSlide.getAttribute('data-bgcolor');
+                    document.body.style.backgroundColor = newColor;
+                },
+            },
+        });
+
+        // Set initial background color
+        document.body.style.backgroundColor = document.querySelector('.swiper-slide-active').getAttribute('data-bgcolor');
+
+        // Disable swiper and show vertical images on small screens with more vertical space
+        function checkScreenSize() {
+            if (window.innerWidth <= 600 && window.innerHeight >= 800) {
+                document.querySelector('.swiper-container').style.display = 'none';
+                document.querySelector('.vertical-images').style.display = 'flex';
+            } else {
+                document.querySelector('.swiper-container').style.display = 'block';
+                document.querySelector('.vertical-images').style.display = 'none';
+            }
+        }
+
+        window.addEventListener('resize', checkScreenSize);
+        window.addEventListener('load', checkScreenSize);
+    </script>
+</body>
+</html>
