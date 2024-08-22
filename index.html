@@ -112,14 +112,12 @@
 
         // Function to check screen size and update visibility of containers
         function checkScreenSize() {
-            if (window.innerWidth <= 1000) {
-                // Show vertical images if screen width is 768px or less
+            if (window.innerHeight > window.innerWidth) {
                 document.querySelector('.swiper-container').style.display = 'none';
                 document.querySelector('.vertical-images').style.display = 'flex';
                 document.body.classList.add('scrollable-body');
                 document.body.classList.remove('no-scroll-body');
             } else {
-                // Show swiper container if screen width is more than 768px
                 document.querySelector('.swiper-container').style.display = 'block';
                 document.querySelector('.vertical-images').style.display = 'none';
                 document.body.classList.add('no-scroll-body');
