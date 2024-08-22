@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,12 +16,12 @@
             background-color: #f8f8f8;
             font-family: Arial, sans-serif;
             transition: background-color 0.5s ease;
-            overflow: hidden; /* Hide scroll bars */
         }
         .swiper-container {
             width: 100%;
             max-width: 1366px;
             height: 768px;
+            box-sizing: border-box;
         }
         .swiper-slide {
             display: flex;
@@ -32,41 +32,34 @@
             width: 100%;
             height: auto;
             max-height: 100%;
-            object-fit: contain; /* Ensure the image fits within the container */
+            object-fit: contain;
         }
         @media (max-width: 768px) {
             .swiper-container {
                 height: 50vh;
-            }
-            .swiper-slide img {
-                width: 100%;
-                height: auto;
             }
         }
         @media (max-width: 480px) {
             .swiper-container {
                 height: 40vh;
             }
-            .swiper-slide img {
-                width: 100%;
-                height: auto;
-            }
         }
-        @media (max-width: 600px) and (min-height: 800px) {
-            .swiper-container {
-                display: none; /* Hide swiper container */
-            }
-            .vertical-images {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-            }
-            .vertical-images img {
-                width: 100%;
-                height: auto;
-                margin-bottom: 10px;
-            }
+        .vertical-images {
+            display: none; /* Initially hide this */
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .vertical-images img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .scrollable-body {
+            overflow: auto;
+        }
+        .no-scroll-body {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -78,24 +71,22 @@
             <div class="swiper-slide" data-bgcolor="#fdffb6"><img src="images/3.png" alt="Image 3"></div>
             <div class="swiper-slide" data-bgcolor="#caffbf"><img src="images/4.png" alt="Image 4"></div>
         </div>
-        <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
-        <!-- Add Navigation -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
 
-    <div class="vertical-images" style="display: none;">
+    <div class="vertical-images">
         <img src="images/1.png" alt="Image 1">
         <img src="images/2.png" alt="Image 2">
-        <img src="images/3.png" alt="Image 3">
         <img src="images/4.png" alt="Image 4">
+        <img src="images/3.png" alt="Image 3">
     </div>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper('.swiper-container', {
-            loop: true, // Enable loop for infinite scrolling
+            loop: true,
             slidesPerView: 1,
             centeredSlides: true,
             spaceBetween: 10,
@@ -119,14 +110,20 @@
         // Set initial background color
         document.body.style.backgroundColor = document.querySelector('.swiper-slide-active').getAttribute('data-bgcolor');
 
-        // Disable swiper and show vertical images on small screens with more vertical space
+        // Function to check screen size and update visibility of containers
         function checkScreenSize() {
-            if (window.innerWidth <= 600 && window.innerHeight >= 800) {
+            if (window.innerWidth <= 1000) {
+                // Show vertical images if screen width is 768px or less
                 document.querySelector('.swiper-container').style.display = 'none';
                 document.querySelector('.vertical-images').style.display = 'flex';
+                document.body.classList.add('scrollable-body');
+                document.body.classList.remove('no-scroll-body');
             } else {
+                // Show swiper container if screen width is more than 768px
                 document.querySelector('.swiper-container').style.display = 'block';
                 document.querySelector('.vertical-images').style.display = 'none';
+                document.body.classList.add('no-scroll-body');
+                document.body.classList.remove('scrollable-body');
             }
         }
 
